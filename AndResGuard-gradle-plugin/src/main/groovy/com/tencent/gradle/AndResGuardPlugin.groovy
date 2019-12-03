@@ -11,40 +11,44 @@ import org.gradle.api.Project
 
 class AndResGuardPlugin implements Plugin<Project> {
 
-    @Override
-    public void apply(Project project) {
-        project.apply plugin: 'com.google.osdetector'
-        project.extensions.create('andResGuard', AndResGuardExtension)
-        project.extensions.add("sevenzip", new ExecutorExtension("sevenzip"))
+  public static final String USE_APK_TASK_NAME = "UseApk"
 
-        project.afterEvaluate {
-            def android = project.extensions.android
+  @Override
+  void apply(Project project) {
+    project.apply plugin: 'com.google.osdetector'
+    project.extensions.create('andResGuard', AndResGuardExtension)
+    project.extensions.add("sevenzip", new ExecutorExtension("sevenzip"))
 
-            android.applicationVariants.all { variant ->
-                def variantName = variant.name.capitalize()
-                createTask(project, variantName)
-            }
+    project.afterEvaluate {
+      def android = project.extensions.android
+      createTask(project, USE_APK_TASK_NAME)
 
-            android.buildTypes.all { buildType ->
-                def buildTypeName = buildType.name.capitalize()
-                createTask(project, buildTypeName)
-            }
+      android.applicationVariants.all { variant ->
+        def variantName = variant.name.capitalize()
+        createTask(project, variantName)
+      }
 
-            android.productFlavors.all { flavor ->
-                def flavorName = flavor.name.capitalize()
-                createTask(project, flavorName)
-            }
+      android.buildTypes.all { buildType ->
+        def buildTypeName = buildType.name.capitalize()
+        createTask(project, buildTypeName)
+      }
 
-            def ExecutorExtension sevenzip = project.extensions.findByName("sevenzip")
-            sevenzip.loadArtifact(project)
-        }
+      android.productFlavors.all { flavor ->
+        def flavorName = flavor.name.capitalize()
+        createTask(project, flavorName)
+      }
+
+      project.extensions.findByName("sevenzip").loadArtifact(project)
     }
+  }
 
-    private static void createTask(Project project, variantName) {
-        def taskName = "resguard${variantName}"
-        if (project.tasks.findByPath(taskName) == null) {
-            def task = project.task(taskName, type: AndResGuardTask)
-            task.dependsOn "assemble${variantName}"
-        }
+  private static void createTask(Project project, variantName) {
+    def taskName = "resguard${variantName}"
+    if (project.tasks.findByPath(taskName) == null) {
+      def task = project.task(taskName, type: AndResGuardTask)
+      if (variantName != USE_APK_TASK_NAME) {
+        task.dependsOn "assemble${variantName}"
+      }
     }
+  }
 }

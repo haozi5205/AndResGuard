@@ -6,62 +6,111 @@ package com.tencent.gradle
  * @author sim sun (sunsj1231@gmail.com)
  */
 
-public class AndResGuardExtension {
+class AndResGuardExtension {
 
-    File mappingFile;
-    boolean use7zip;
-    boolean useSign;
-    String metaName;
-    boolean keepRoot;
-    Iterable<String> whiteList;
-    Iterable<String> compressFilePattern;
+  File mappingFile
+  boolean use7zip
+  boolean useSign
+  String metaName
+  String fixedResName
+  boolean keepRoot
+  boolean mergeDuplicatedRes
+  Iterable<String> whiteList
+  Iterable<String> compressFilePattern
+  String finalApkBackupPath
+  String digestalg
+  String sourceApk
+  String sourceBuildType
+  String sourceFlavor
 
-    public AndResGuardExtension() {
-        use7zip = false
-        useSign = false
-        metaName = "META-INF"
-        keepRoot = false
-        whiteList = []
-        compressFilePattern = []
-        mappingFile = null
-    }
+  AndResGuardExtension() {
+    use7zip = false
+    useSign = false
+    metaName = "META-INF"
+    fixedResName = null
+    keepRoot = false
+    mergeDuplicatedRes = false
+    whiteList = []
+    compressFilePattern = []
+    mappingFile = null
+    finalApkBackupPath = null
+    digestalg = null
+    sourceApk = null
+    sourceBuildType = null
+    sourceFlavor = null
+  }
 
-    Iterable<String> getCompressFilePattern() {
-        return compressFilePattern
-    }
+  Iterable<String> getCompressFilePattern() {
+    return compressFilePattern
+  }
 
-    File getMappingFile() {
-        return mappingFile
-    }
+  File getMappingFile() {
+    return mappingFile
+  }
 
-    boolean getUse7zip() {
-        return use7zip
-    }
+  boolean getUse7zip() {
+    return use7zip
+  }
 
-    boolean getUseSign() {
-        return useSign
-    }
+  boolean getUseSign() {
+    return useSign
+  }
 
-    String getMetaName() {
-        return metaName
-    }
+  String getMetaName() {
+    return metaName
+  }
 
-    boolean getKeepRoot() {
-        return keepRoot
-    }
+  String getFixedResName() {
+    return fixedResName
+  }
 
-    Iterable<String> getWhiteList() {
-        return whiteList
-    }
+  boolean getKeepRoot() {
+    return keepRoot
+  }
 
-    @Override
-    public String toString() {
-        """| use7zip = ${use7zip}
+  boolean getMergeDuplicatedRes() {
+    return mergeDuplicatedRes
+  }
+
+  Iterable<String> getWhiteList() {
+    return whiteList
+  }
+
+  String getFinalApkBackupPath() {
+    return finalApkBackupPath
+  }
+
+  String getDigestalg() {
+    return digestalg
+  }
+
+  String getSourceApk() {
+    return sourceApk
+  }
+
+  String getSourceBuildType() {
+    return sourceBuildType
+  }
+
+  String getSourceFlavor() {
+    return sourceFlavor
+  }
+
+  @Override
+  String toString() {
+    """| use7zip = ${use7zip}
            | useSign = ${useSign}
            | metaName = ${metaName}
+           | fixedResName = ${fixedResName}
            | keepRoot = ${keepRoot}
+           | mergeDuplicatedRes = ${mergeDuplicatedRes}
            | whiteList = ${whiteList}
            | compressFilePattern = ${compressFilePattern}
+           | finalApkBackupPath = ${finalApkBackupPath}
+           | digstalg = ${digestalg}
+           | sourceApk = ${sourceApk}
+           | sourceBuildType = ${sourceBuildType}
+           | sourceFlavor = ${sourceFlavor}
         """.stripMargin()
-    }
+  }
 }

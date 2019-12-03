@@ -1,24 +1,35 @@
 package com.tencent.gradle
 
 /**
- * Created by simsun on 5/13/16.
- */
+ * Created by simsun on 5/13/16.*/
 
 class BuildInfo {
-    def file
-    def signConfig
-    def packageName
+  def file
+  def signConfig
+  def packageName
+  def buildType
+  def flavors
+  def taskName
+  def minSDKVersion
 
-    public BuildInfo(file, sign, packageName) {
-        this.file = file
-        this.signConfig = sign
-        this.packageName = packageName
-    }
+  BuildInfo(file, sign, packageName, buildType, flavors, taskName, minSDKVersion) {
+    this.file = file
+    this.signConfig = sign
+    this.packageName = packageName
+    this.buildType = buildType
+    this.flavors = flavors
+    this.taskName = taskName
+    this.minSDKVersion = minSDKVersion
+  }
 
-    @Override
-    public String toString() {
-        """| file = ${file}
-           | packageName = ${packageName}
-        """.stripMargin()
-    }
+  @Override
+  String toString() {
+    """| file = ${file}
+       | packageName = ${packageName}
+       | buildType = ${buildType}
+       | flavors = ${flavors}
+       | taskname = ${taskName}
+       | minSDKVersion = ${minSDKVersion}
+    """.stripMargin()
+  }
 }
